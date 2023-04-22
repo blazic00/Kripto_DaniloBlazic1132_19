@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.kripto_daniloblazic1132_19.LoginView">
+   <children>
+      <TextField fx:id="usernameTextField" layoutX="226.0" layoutY="88.0" />
+      <PasswordField fx:id="passwordField" layoutX="226.0" layoutY="209.0" />
+      <Label layoutX="91.0" layoutY="92.0" text="Unesite korisnicko ime: " />
+      <Label layoutX="118.0" layoutY="213.0" text="Unesite sifru: " />
+      <Button fx:id="potvrdiButton" layoutX="349.0" layoutY="299.0" mnemonicParsing="false" onAction="#onPotvrdiButtonClick" text="Potvrdi" />
+   </children>
+</AnchorPane>
