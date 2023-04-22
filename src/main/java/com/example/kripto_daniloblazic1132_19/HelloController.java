@@ -24,8 +24,9 @@ public class HelloController {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-    public void onloginButtonClick(ActionEvent actionEvent) {
-
+    public void onloginButtonClick(ActionEvent actionEvent) throws IOException {
+        Stage currentStage = (Stage) loginButton.getScene().getWindow();
+        MyStage.createStage("sertifikat-view.fxml");
 
     }
 

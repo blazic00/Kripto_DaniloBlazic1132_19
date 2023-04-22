@@ -1,6 +1,7 @@
 package com.example.kripto_daniloblazic1132_19;
 
 import crypto.Crypto;
+import crypto.Korisnik;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class SignUpView {
 
@@ -28,7 +31,7 @@ public class SignUpView {
     @FXML
     private Button potvrdiButton;
 
-    public void onPotvrdiButtonClick(ActionEvent actionEvent) {
+    public void onPotvrdiButtonClick(ActionEvent actionEvent) throws IOException {
         Stage currentStage = (Stage) potvrdiButton.getScene().getWindow();
         String ime="";
         String mail="";
@@ -51,12 +54,13 @@ public class SignUpView {
             label.setText("Sifre se ne poklapaju!");
             return;
         }
-        if(Crypto.checkIfUsernameExists(username)){
+        if(Crypto.checkIfUserExist(username) == 1){
             label.setText("Korisnicko ime zauzeto!");
             return;
         }
         Crypto.createUser(ime,mail,username,pass1);
-
-
+        Korisnik.setCurrentUser(username);
+        MyStage.createStage("upload_download-view.fxml");
+        currentStage.close();
     }
 }

@@ -7,6 +7,11 @@ public class MetaData {
         return pathToCerts;
     }
 
+    public static int getLoginCounter() {
+        return loginCounter;
+    }
+
+    private static int loginCounter = 3;
     private static String pathToCerts = "CA"+ File.separator+"certs";
 
     public static String getCApassword() {

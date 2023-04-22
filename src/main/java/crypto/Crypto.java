@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Crypto {
-    public static boolean checkIfUsernameExists(String username) {
-        return false;
-    }
 
     public static void createUser(String ime, String mail, String username, String pass1) {
       /*  try {
@@ -24,10 +21,12 @@ public class Crypto {
         runScript(command);
     }
 
-    private static int checkIfUserExist(String username){
+    public static int checkIfUserExist(String username){
         String[] command = {"bash","scripts/checkIfUserExist.sh",username};
         return runScript(command);
     }
+
+
 
     private static int runScript(String[] command){
         try {
@@ -43,5 +42,24 @@ public class Crypto {
             throw new RuntimeException(e);
         }
         return 0;
+    }
+
+    public static int verifyPassword(String password, String username) {
+        String[] command = {"bash","scripts/verifyPassword.sh",username,password};
+        return runScript(command);
+    }
+
+    public static int verifyUserCert(String userCert) {
+        String[] command = {"bash","scripts/verifyUserCert.sh",userCert};
+        return runScript(command);
+    }
+
+    public static void revokeUserCert(String userCert){
+        String[] command = {"bash","scripts/revokeUserCert.sh",userCert,MetaData.getCApassword()};
+        runScript(command);
+    }
+
+    public static void reactivateUserCert(String userCert){
+
     }
 }
