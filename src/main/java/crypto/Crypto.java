@@ -10,13 +10,7 @@ import java.util.stream.Stream;
 public class Crypto {
 
     public static void createUser(String ime, String mail, String username, String pass1) {
-      /*  try {
-            ProcessBuilder pb = new ProcessBuilder("bash", "scripts/genUser.sh",username,pass1,ime,mail,MetaData.getCApassword());
-            pb.directory(new File(System.getProperty("user.dir")));
-            Process p = pb.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+
         String[] command = {"bash","scripts/genUser.sh",username,pass1,ime,mail,MetaData.getCApassword()};
         runScript(command);
     }
