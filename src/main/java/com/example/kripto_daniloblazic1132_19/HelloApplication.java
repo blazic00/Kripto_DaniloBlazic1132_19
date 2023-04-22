@@ -16,7 +16,8 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        Crypto.revokeUserCert("korisnik.crt");
+       // Crypto.revokeUserCert("daco01.crt");
+        Crypto.reactivateUserCert("daco00.crt");
 
     }
 

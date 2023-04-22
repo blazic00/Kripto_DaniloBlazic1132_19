@@ -13,9 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginView {
-
-    private int counter;
+public class ReactivateCertView {
 
     @FXML
     private TextField usernameTextField;
@@ -27,15 +25,13 @@ public class LoginView {
     private Button potvrdiButton;
 
     @FXML
+    private Button noviNalogButton;
+
+    @FXML
     private Label label;
 
 
-    @FXML
-    public void initialize(){
-
-    }
     public void onPotvrdiButtonClick(ActionEvent actionEvent) throws IOException {
-
         Stage currentStage = (Stage) potvrdiButton.getScene().getWindow();
         String username="";
         String password="";
@@ -53,29 +49,21 @@ public class LoginView {
         }
         if(!username.equals(Korisnik.getCurrentUser())){
             label.setText("Pogresno unijeto korisnicko ime ili lozinka!");
-            counter++;
-            if(counter == MetaData.getLoginCounter()){
-                Crypto.revokeUserCert(Korisnik.getCurrentUser());
-                MyStage.createStage("reactivateCert-view.fxml");
-                currentStage.close();
-            }
             return;
         }
         else{
             if(Crypto.verifyPassword(password,username) == 0){
                 label.setText("Pogresno unijeto korisnicko ime ili lozinka!");
-                counter++;
-                if(counter == MetaData.getLoginCounter()){
-                    Crypto.revokeUserCert(Korisnik.getCurrentUser());
-                    MyStage.createStage("reactivateCert-view.fxml");
-                    currentStage.close();
-                }
                 return;
             }
             else{
                 MyStage.createStage("upload_download-view.fxml");
+                Crypto.reactivateUserCert(Korisnik.getCurrentUser());
             }
         }
         currentStage.close();
+    }
+
+    public void onNoviNalogButtonClick(ActionEvent actionEvent) {
     }
 }

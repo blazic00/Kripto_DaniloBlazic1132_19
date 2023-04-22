@@ -54,12 +54,15 @@ public class Crypto {
         return runScript(command);
     }
 
-    public static void revokeUserCert(String userCert){
+    public static void revokeUserCert(String username){
+        String userCert = username+".crt";
         String[] command = {"bash","scripts/revokeUserCert.sh",userCert,MetaData.getCApassword()};
         runScript(command);
     }
 
-    public static void reactivateUserCert(String userCert){
-
+    public static void reactivateUserCert(String username){
+        String userCert = username+".crt";
+        String[] command = {"bash","scripts/reactivateUserCert.sh",userCert,MetaData.getCApassword()};
+        runScript(command);
     }
 }

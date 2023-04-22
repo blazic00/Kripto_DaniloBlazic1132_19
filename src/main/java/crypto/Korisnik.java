@@ -6,6 +6,7 @@ public class Korisnik {
         return currentUser;
     }
 
+
     public static void setCurrentUser(String currentUser) {
         Korisnik.currentUser = currentUser;
     }
