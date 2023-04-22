@@ -1,6 +1,7 @@
 package com.example.kripto_daniloblazic1132_19;
 
 import crypto.Crypto;
+import crypto.Korisnik;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,8 +17,8 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-       // Crypto.revokeUserCert("daco01.crt");
-        Crypto.reactivateUserCert("daco00.crt");
+        Korisnik.setCurrentUser("daco00");
+       MyStage.createStage("upload_download-view.fxml");
 
     }
 

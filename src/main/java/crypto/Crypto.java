@@ -59,4 +59,16 @@ public class Crypto {
         String[] command = {"bash","scripts/reactivateUserCert.sh",userCert,MetaData.getCApassword()};
         runScript(command);
     }
+
+
+    public static void signFile(String username,File selectedFile) {
+        String pomFilePath = selectedFile.getAbsolutePath().replace(""+File.separatorChar,"/");
+        char drive = pomFilePath.toLowerCase().charAt(0);
+        pomFilePath = pomFilePath.replaceAll("\\w:","/mnt/"+drive);
+        String[] command = {"bash","scripts/signFile.sh",username,pomFilePath,selectedFile.getName()};
+        runScript(command);
+    }
+
+    public static void encryptFile(File selectedFile) {
+    }
 }
