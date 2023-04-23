@@ -98,7 +98,7 @@ public class Crypto {
         }
     }
 
-    public static void assembleFile(String selecteFileName) throws IOException {
+    private static void assembleFile(String selectedFileName) throws IOException {
         File file = new File(MetaData.getPathTotempFileSegments());
         int size=0;
         int segmentSize= (int)  (int) file.listFiles()[0].length();
@@ -112,7 +112,7 @@ public class Crypto {
         for(int i =0;i<file.list().length;i++){
             System.arraycopy(Files.readAllBytes(file.listFiles()[i].toPath()),0,fileBytes,i*segmentSize,(int)file.listFiles()[i].length());
         }
-        try (FileOutputStream outputStream = new FileOutputStream(MetaData.getPathToDownloadFolder()+File.separator+selecteFileName)) {
+        try (FileOutputStream outputStream = new FileOutputStream(MetaData.getPathToDownloadFolder()+File.separator+selectedFileName)) {
             outputStream.write(fileBytes);
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,9 +126,20 @@ public class Crypto {
         runScript(command);
     }
 
-
-    public static void download(String selectedFileName) {
+    private static void decryptFileSegments(String selectedFileName){
         String[] command = {"bash","scripts/decryptFileSegments.sh",Korisnik.getCurrentUser(),selectedFileName,MetaData.getAESpassword()};
         runScript(command);
+    }
+
+
+    public static int download(String selectedFileName) throws IOException {
+        decryptFileSegments(selectedFileName);
+        assembleFile(selectedFileName);
+        return verifyFilesignature("./"+MetaData.getPathToDownloadFolder()+"/"+selectedFileName,selectedFileName);
+    }
+
+    private static int verifyFilesignature(String downloadFile,String selectedFileName) {
+        String[] command = {"bash","scripts/verifyFilesignature.sh",Korisnik.getCurrentUser(),downloadFile,selectedFileName};
+        return runScript(command);
     }
 }

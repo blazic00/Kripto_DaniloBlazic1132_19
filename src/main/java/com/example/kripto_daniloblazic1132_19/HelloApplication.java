@@ -17,10 +17,9 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        Korisnik.setCurrentUser("daco01");
+        Korisnik.setCurrentUser("daco00");
        MyStage.createStage("upload_download-view.fxml");
 
-       Crypto.assembleFile("fajl3.txt");
 
     }
 

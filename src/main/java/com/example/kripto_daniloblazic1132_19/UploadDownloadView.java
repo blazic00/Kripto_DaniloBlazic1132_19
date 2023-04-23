@@ -50,11 +50,18 @@ public class UploadDownloadView {
             Stage currentStage = (Stage) listView.getScene().getWindow();
             ObservableList<String> selectedItems = listView.getSelectionModel().getSelectedItems();
             String selectedFileName = selectedItems.get(0);
-            Crypto.download(selectedFileName);
-            System.out.println(selectedFileName);
+            int res = Crypto.download(selectedFileName);
+            if(res == 0){
+                label.setText("Dokument je spreman za preuzimanje");
+            }
+            else{
+                label.setText("Dokument nije prosao verifikaciju");
+            }
         }
         catch (IndexOutOfBoundsException e){
             label.setText("Izaberite fajl!");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
