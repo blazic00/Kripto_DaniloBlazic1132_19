@@ -119,11 +119,30 @@ public class Crypto {
         }
     }
 
+    private static void deleteContentOfTempFileSegments(){
+        File folder = new File(MetaData.getPathTotempFileSegments());
+
+        // Check if the folder exists
+        if (!folder.exists()) {
+            return;
+        }
+        // Get the contents of the folder
+        File[] files = folder.listFiles();
+
+        // Delete each file in the folder
+        for (File file : files) {
+            if (file.isFile()) {
+                file.delete();
+            }
+        }
+    }
+
 
     public static void encryptFile(File selectedFile) throws IOException {
        splitFile(selectedFile);
         String[] command = {"bash","scripts/encryptFile.sh",MetaData.getAESpassword()};
         runScript(command);
+        deleteContentOfTempFileSegments();
     }
 
     private static void decryptFileSegments(String selectedFileName){
@@ -135,6 +154,7 @@ public class Crypto {
     public static int download(String selectedFileName) throws IOException {
         decryptFileSegments(selectedFileName);
         assembleFile(selectedFileName);
+        deleteContentOfTempFileSegments();
         return verifyFilesignature("./"+MetaData.getPathToDownloadFolder()+"/"+selectedFileName,selectedFileName);
     }
 
