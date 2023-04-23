@@ -1,10 +1,13 @@
 package crypto;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Stream;
 
 public class Crypto {
@@ -69,10 +72,44 @@ public class Crypto {
         runScript(command);
     }
 
-    public static void encryptFile(File selectedFile) {
+    private static void splitFile(File selectedFile) throws IOException {
+        byte[] bytes = Files.readAllBytes(selectedFile.toPath());
+        Random random = new Random();
+        int segments = random.nextInt(4,11);
+        int segmentSize = bytes.length/segments;
+        int lastSegmentSize = segmentSize + bytes.length%segments;
+
+        byte[] pom;
+        for(int i=0;i<segments;i++){
+            if(i<segments-1) {
+                pom = new byte[segmentSize];
+                System.arraycopy(bytes, i * segmentSize, pom, 0, segmentSize);
+            }
+            else{
+                pom = new byte[lastSegmentSize];
+                System.arraycopy(bytes, i * segmentSize, pom, 0, lastSegmentSize);
+            }
+            File file = new File("tempFileSegments"+File.separator+selectedFile.getName()+"."+Korisnik.getCurrentUser()+"."+(i+1));
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(pom);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public static int checkIfFileSignedByUser(File file) {
-        return 0;
+
+
+    public static void encryptFile(File selectedFile) throws IOException {
+       splitFile(selectedFile);
+
     }
+
+    public static boolean checkIfFileSignedByUser(File file) {
+        if(file.getName().split("\\.")[2].equals(Korisnik.getCurrentUser()))
+            return true;
+        else
+            return false;
+    }
+
 }

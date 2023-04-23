@@ -12,6 +12,12 @@ public class MetaData {
     }
 
     private static int loginCounter = 3;
+
+    public static int getMinSegments() {
+        return minSegments;
+    }
+
+    private static int minSegments = 4;
     private static String pathToCerts = "CA"+ File.separator+"certs";
 
     public static String getPathToSignedFiles() {
