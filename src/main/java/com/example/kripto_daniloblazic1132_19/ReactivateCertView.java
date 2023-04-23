@@ -64,6 +64,9 @@ public class ReactivateCertView {
         currentStage.close();
     }
 
-    public void onNoviNalogButtonClick(ActionEvent actionEvent) {
+    public void onNoviNalogButtonClick(ActionEvent actionEvent) throws IOException {
+        MyStage.createStage("signUp-view.fxml");
+        Stage currentStage = (Stage) potvrdiButton.getScene().getWindow();
+        currentStage.close();
     }
 }

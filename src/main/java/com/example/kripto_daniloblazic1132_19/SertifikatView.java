@@ -42,7 +42,7 @@ public class SertifikatView {
                 Korisnik.setCurrentUser(currentUsername);
         }
         else{
-            //Sertifikat nije validan!
+            MyStage.createStage("obavijest_Cert_Revoke-view.fxml");
         }
         currentStage.close();
     }

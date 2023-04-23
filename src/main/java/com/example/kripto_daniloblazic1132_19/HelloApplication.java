@@ -17,9 +17,6 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        Korisnik.setCurrentUser("daco00");
-       MyStage.createStage("upload_download-view.fxml");
-
 
     }
 
