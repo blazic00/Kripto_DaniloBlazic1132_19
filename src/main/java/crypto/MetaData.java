@@ -14,6 +14,12 @@ public class MetaData {
     private static int loginCounter = 3;
     private static String pathToCerts = "CA"+ File.separator+"certs";
 
+    public static String getPathToSignedFiles() {
+        return pathToSignedFiles;
+    }
+
+    private static String pathToSignedFiles = "signedFiles";
+
     public static String getCApassword() {
         return CApassword;
     }

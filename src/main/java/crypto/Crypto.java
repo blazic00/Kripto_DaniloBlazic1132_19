@@ -71,4 +71,8 @@ public class Crypto {
 
     public static void encryptFile(File selectedFile) {
     }
+
+    public static int checkIfFileSignedByUser(File file) {
+        return 0;
+    }
 }
