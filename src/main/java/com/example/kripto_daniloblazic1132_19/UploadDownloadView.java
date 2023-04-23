@@ -11,9 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class UploadDownloadView {
 
@@ -22,6 +24,7 @@ public class UploadDownloadView {
 
     @FXML
     private Label label;
+
 
     @FXML
     public void initialize() {
@@ -34,7 +37,7 @@ public class UploadDownloadView {
         File[] files = folder.listFiles();
         for (File file : files) {
             if (file.isFile()) {
-                if(Crypto.checkIfFileSignedByUser(file)) {
+                if(checkIfFileSignedByUser(file)) {
                     String pom=file.getName().split("\\.")[0]+"."+file.getName().split("\\.")[1];
                     items.add(pom);
                 }
@@ -43,7 +46,16 @@ public class UploadDownloadView {
         listView.setItems(items);
     }
     public void onDownloadButtonClick(ActionEvent actionEvent) {
-
+        try {
+            Stage currentStage = (Stage) listView.getScene().getWindow();
+            ObservableList<String> selectedItems = listView.getSelectionModel().getSelectedItems();
+            String selectedFileName = selectedItems.get(0);
+            Crypto.download(selectedFileName);
+            System.out.println(selectedFileName);
+        }
+        catch (IndexOutOfBoundsException e){
+            label.setText("Izaberite fajl!");
+        }
     }
 
     private File chooseFile(){
@@ -74,5 +86,11 @@ public class UploadDownloadView {
                 return true;
         }
         return false;
+    }
+    public static boolean checkIfFileSignedByUser(File file) {
+        if(file.getName().split("\\.")[2].equals(Korisnik.getCurrentUser()))
+            return true;
+        else
+            return false;
     }
 }

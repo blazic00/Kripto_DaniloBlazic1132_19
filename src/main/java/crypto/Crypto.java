@@ -75,7 +75,7 @@ public class Crypto {
     private static void splitFile(File selectedFile) throws IOException {
         byte[] bytes = Files.readAllBytes(selectedFile.toPath());
         Random random = new Random();
-        int segments = random.nextInt(4,11);
+        int segments = random.nextInt(4,10);
         int segmentSize = bytes.length/segments;
         int lastSegmentSize = segmentSize + bytes.length%segments;
 
@@ -98,18 +98,37 @@ public class Crypto {
         }
     }
 
+    public static void assembleFile(String selecteFileName) throws IOException {
+        File file = new File(MetaData.getPathTotempFileSegments());
+        int size=0;
+        int segmentSize= (int)  (int) file.listFiles()[0].length();
+
+        for(int i =0;i<file.list().length;i++){
+            int segmentSize1= (int) file.listFiles()[i].length();
+            size+=segmentSize1;
+        }
+        byte[] fileBytes = new byte[size];
+
+        for(int i =0;i<file.list().length;i++){
+            System.arraycopy(Files.readAllBytes(file.listFiles()[i].toPath()),0,fileBytes,i*segmentSize,(int)file.listFiles()[i].length());
+        }
+        try (FileOutputStream outputStream = new FileOutputStream(MetaData.getPathToDownloadFolder()+File.separator+selecteFileName)) {
+            outputStream.write(fileBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public static void encryptFile(File selectedFile) throws IOException {
        splitFile(selectedFile);
-
+        String[] command = {"bash","scripts/encryptFile.sh",MetaData.getAESpassword()};
+        runScript(command);
     }
 
-    public static boolean checkIfFileSignedByUser(File file) {
-        if(file.getName().split("\\.")[2].equals(Korisnik.getCurrentUser()))
-            return true;
-        else
-            return false;
-    }
 
+    public static void download(String selectedFileName) {
+        String[] command = {"bash","scripts/decryptFileSegments.sh",Korisnik.getCurrentUser(),selectedFileName,MetaData.getAESpassword()};
+        runScript(command);
+    }
 }
